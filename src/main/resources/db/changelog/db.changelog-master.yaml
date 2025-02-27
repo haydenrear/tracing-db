@@ -1,0 +1,35 @@
+databaseChangeLog:
+- changeSet:
+    id: '1709504654687'
+    author: Spring Data Relational
+    objectQuotingStrategy: LEGACY
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: true
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: true
+            name: data
+            type: json
+        tableName: event
+- changeSet:
+      id: '1709504654688'
+      author: Spring Data Relational
+      objectQuotingStrategy: LEGACY
+      changes:
+          - addColumn:
+                columns:
+                    - column:
+                          constraints:
+                              nullable: true
+                          name: trace
+                          type: json
+                tableName: event
+
