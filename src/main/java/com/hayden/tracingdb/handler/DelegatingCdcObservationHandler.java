@@ -28,8 +28,8 @@ public class DelegatingCdcObservationHandler extends DefaultTracingObservationHa
                     .map( it -> Map.entry(it, d))
             ).ifPresent( it ->  {
                 eventRepository.save(new Event(
-                        it.getKey().getValue(),
-                        it.getValue().getValue()));
+                        Map.of("data", it.getKey().getValue()),
+                        Map.of("trace", it.getValue().getValue())));
                 context.removeHighCardinalityKeyValue("data");
                 context.remove("data");
         });

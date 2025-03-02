@@ -28,7 +28,7 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
         DataSourceAutoConfiguration.class
 })
 @Profile("telemetrydb")
-@ComponentScan(basePackages = "com.hayden.tracingdb")
+@ComponentScan(basePackages = {"com.hayden.tracingdb", "com.hayden.jdbc_persistence"})
 @EnableJdbcRepositories(basePackageClasses = {EventRepository.class})
 @Import({TracingDbLiquibaseConfig.class, JsonJdbcConfig.class})
 public class DatabaseConfiguration {
