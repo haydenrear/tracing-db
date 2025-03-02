@@ -1,0 +1,40 @@
+tracing-db:
+  liquibase:
+    event:
+      user: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+      enabled: false
+      change-log: classpath:/db/changelog/db.changelog-master.yaml
+      drop-first: true
+      url: jdbc:postgresql://localhost:5437/postgres
+    main:
+      user: postgres
+      password: postgres
+      driver-class-name: org.postgresql.Driver
+      enabled: false
+      change-log: classpath:/db/changelog/db.changelog-master.yaml
+      drop-first: true
+      url: jdbc:postgresql://localhost:5455/postgres
+spring:
+  docker:
+    compose:
+      enabled: true
+      file: src/test/docker/docker-compose.yml
+      lifecycle-management: start_only
+      readiness:
+        wait: always
+      skip:
+        in-tests: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    type: com.zaxxer.hikari.HikariDataSource
+    password: postgres
+    url: jdbc:postgresql://localhost:5437/postgres
+    hikari:
+      data-source-class-name: com.zaxxer.hikari.HikariDataSource
+otel:
+  instrumentation:
+    jdbc:
+      enabled: false

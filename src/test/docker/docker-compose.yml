@@ -1,0 +1,23 @@
+services:
+  tracing-db-test :
+    image: localhost:5001/postgres-pgvector
+    container_name: tracing-db-test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - tracing-db-test:/var/lib/postgresql/embedding
+    ports:
+      - "5437:5432"
+  tracing-db-test-2:
+    image: localhost:5001/postgres-pgvector
+    container_name: tracing-db-test-2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - tracing-db-test:/var/lib/postgresql/embedding
+    ports:
+      - "5455:5432"
+volumes:
+  tracing-db-test:

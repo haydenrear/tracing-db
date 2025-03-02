@@ -16,4 +16,5 @@ version = "1.0.0"
 
 dependencies {
     implementation(project(":jdbc-persistence"))
+    implementation(project(":utilitymodule"))
 }
