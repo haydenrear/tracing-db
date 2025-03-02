@@ -26,14 +26,6 @@ spring:
         wait: always
       skip:
         in-tests: false
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    username: postgres
-    type: com.zaxxer.hikari.HikariDataSource
-    password: postgres
-    url: jdbc:postgresql://localhost:5437/postgres
-    hikari:
-      data-source-class-name: com.zaxxer.hikari.HikariDataSource
 otel:
   instrumentation:
     jdbc:

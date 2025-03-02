@@ -66,7 +66,7 @@ public class TracingDbLiquibaseConfig {
         }
     }
 
-    @Bean("tracingDbDataSource")
+    @Bean(name = {"tracingDbDataSource", "dataSource"})
     public DataSource dataSource(TracingDbLiquibaseProperties properties,
                                  DbDataSourceTrigger trigger) {
         trigger.setGlobalCurrentKey("main");
