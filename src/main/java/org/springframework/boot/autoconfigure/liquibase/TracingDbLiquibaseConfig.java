@@ -57,7 +57,7 @@ public class TracingDbLiquibaseConfig {
     @RequiredArgsConstructor
     public static class TracingDbRoutingDataSource extends AbstractRoutingDataSource {
 
-        private final Map<String, DataSource> sources ;
+        private final Map<String, DataSource> sources;
         private final DbDataSourceTrigger trigger;
 
         @Override
@@ -101,14 +101,13 @@ public class TracingDbLiquibaseConfig {
 
     @Bean
     public CommandLineRunner liquibase(TracingDbLiquibaseProperties props,
-                                       @Qualifier("tracingDbDataSource") DataSource dataSource,
                                        TracingDbRoutingDataSource tracingDbRoutingDataSource) {
 
         return args -> {
             for (var propItem : props.getLiquibase().entrySet()) {
                 var properties = propItem.getValue();
                 var connectionDetails = new LiquibaseAutoConfiguration.PropertiesLiquibaseConnectionDetails(properties);
-                SpringLiquibase liquibase = createSpringLiquibase(dataSource, connectionDetails);
+                SpringLiquibase liquibase = createSpringLiquibase(tracingDbRoutingDataSource.sources.get(propItem.getKey()), connectionDetails);
                 liquibase.setChangeLog(properties.getChangeLog());
                 liquibase.setClearCheckSums(properties.isClearChecksums());
                 liquibase.setContexts(properties.getContexts());
