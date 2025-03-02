@@ -1,5 +1,8 @@
 package com.hayden.tracingdb;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hayden.jdbc_persistence.config.PGJson;
 import com.hayden.tracingdb.entity.Event;
 import com.hayden.tracingdb.repository.EventRepository;
 import com.hayden.utilitymodule.db.DbDataSourceTrigger;
@@ -15,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,7 +55,7 @@ public class JdbcConfigEventDbTest {
     }
 
     @Test
-    public void testEventDbConfig() {
+    public void testEventDbConfig() throws JsonProcessingException {
         trigger.doWithKey(setKey -> {
             var firstUri = Assertions.assertDoesNotThrow(() -> tracingDbRoutingDataSource.getConnection().getMetaData().getURL());
             assertThat(setKey.curr()).isEqualTo("main");
@@ -64,6 +69,22 @@ public class JdbcConfigEventDbTest {
             assertThat(second.getId()).isNotNull();
             assertThat(firstUri).isNotEqualTo(secondUri);
         });
+
+
+        eventRepository.deleteAll();
+        Event entity = new Event();
+        record First(String ok) { }
+
+        ObjectMapper om = new ObjectMapper();
+        var f = om.writeValueAsString(new First("ok"));
+        entity.setData(new PGJson(f));
+        var saved = eventRepository.save(entity);
+        var foundAll = eventRepository.findAll();
+        Optional<Event> readEvent = eventRepository.findById(saved.getId());
+        assertThat(readEvent).isPresent();
+        var found = readEvent.get();
+        var deser = om.readValue(found.getData().value(), First.class);
+        assertThat(deser.ok).isEqualTo("ok");
     }
 
 
