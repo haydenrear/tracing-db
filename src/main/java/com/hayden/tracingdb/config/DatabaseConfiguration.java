@@ -3,7 +3,6 @@ package com.hayden.tracingdb.config;
 import com.hayden.jdbc_persistence.config.JsonJdbcConfig;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration;
-import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.autoconfigure.liquibase.TracingDbLiquibaseConfig;
 import org.springframework.context.annotation.*;
 
@@ -15,11 +14,9 @@ import org.springframework.boot.autoconfigure.data.jdbc.JdbcRepositoriesAutoConf
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
-@EnableAutoConfiguration(exclude = {LiquibaseAutoConfiguration.class})
-@EnableConfigurationProperties(LiquibaseProperties.class)
+@EnableAutoConfiguration(exclude = LiquibaseAutoConfiguration.class)
 @AutoConfiguration
 @EntityScan(basePackageClasses = {Event.class})
 @ImportAutoConfiguration(value = {
@@ -31,7 +28,4 @@ import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 @ComponentScan(basePackages = {"com.hayden.tracingdb", "com.hayden.jdbc_persistence"})
 @EnableJdbcRepositories(basePackageClasses = {EventRepository.class})
 @Import({TracingDbLiquibaseConfig.class, JsonJdbcConfig.class})
-public class DatabaseConfiguration {
-
-
-}
+public class DatabaseConfiguration { }

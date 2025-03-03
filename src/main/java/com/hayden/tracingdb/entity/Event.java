@@ -1,6 +1,8 @@
 package com.hayden.tracingdb.entity;
 
 import com.hayden.jdbc_persistence.config.PgJson;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -12,6 +14,8 @@ import java.util.Map;
 @Table("event")
 @NoArgsConstructor
 @Data
+@AllArgsConstructor
+@Builder
 public class Event {
 
     public Event(Map<String, Object> data, Map<String, Object> trace) {

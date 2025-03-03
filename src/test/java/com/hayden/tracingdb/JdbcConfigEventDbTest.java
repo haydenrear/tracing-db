@@ -1,6 +1,7 @@
 package com.hayden.tracingdb;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import com.hayden.jdbc_persistence.config.PgJson;
 import com.hayden.tracingdb.entity.Event;
 import com.hayden.tracingdb.repository.EventRepository;
@@ -61,6 +62,7 @@ public class JdbcConfigEventDbTest {
             assertThat(setKey.curr()).isEqualTo("main");
             assertThat(eventRepository.count()).isEqualTo(0);
             var e = eventRepository.save(new Event());
+            assertThat(eventRepository.count()).isNotEqualTo(0);
             assertThat(e.getId()).isNotNull();
             setKey.setKey("event");
             var secondUri = Assertions.assertDoesNotThrow(() -> tracingDbRoutingDataSource.getConnection().getMetaData().getURL());
@@ -68,13 +70,17 @@ public class JdbcConfigEventDbTest {
             var second = eventRepository.save(new Event());
             assertThat(second.getId()).isNotNull();
             assertThat(firstUri).isNotEqualTo(secondUri);
+            assertThat(eventRepository.count()).isNotEqualTo(0);
         });
+
+        assertThat(trigger.currentKey()).isEqualTo("main");
 
         eventRepository.deleteAll();
         Event entity = new Event();
         entity.setData(new PgJson.MapPgJson(Map.of("what", "ok")));
         var saved = eventRepository.save(entity);
-        var foundAll = eventRepository.findAll();
+        var foundAll = Lists.newArrayList(eventRepository.findAll());
+        assertThat(foundAll.size()).isNotZero();
         Optional<Event> readEvent = eventRepository.findById(saved.getId());
         assertThat(readEvent).isPresent();
         var found = readEvent.get();
