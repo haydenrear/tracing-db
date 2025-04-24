@@ -1,7 +1,7 @@
 package com.hayden.tracingdb.entity;
 
-import com.hayden.tracing_apt.observation_aspects.BehaviorDataExtractor;
-import com.hayden.tracing_apt.observation_aspects.ObservationUtility;
+import com.hayden.tracing_aspect.observation_aspects.BehaviorDataExtractor;
+import com.hayden.tracing_aspect.observation_aspects.ObservationUtility;
 import com.hayden.utilitymodule.MapFunctions;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
