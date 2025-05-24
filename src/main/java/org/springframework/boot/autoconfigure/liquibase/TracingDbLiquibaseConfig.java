@@ -104,7 +104,7 @@ public class TracingDbLiquibaseConfig {
                 SpringLiquibase liquibase = createSpringLiquibase(tracingDbRoutingDataSource.sources.get(propItem.getKey()), connectionDetails);
                 liquibase.setChangeLog(properties.getChangeLog());
                 liquibase.setClearCheckSums(properties.isClearChecksums());
-                liquibase.setContexts(properties.getContexts());
+                liquibase.setContexts(String.join(", ", properties.getContexts()));
                 liquibase.setDefaultSchema(properties.getDefaultSchema());
                 liquibase.setLiquibaseSchema(properties.getLiquibaseSchema());
                 liquibase.setLiquibaseTablespace(properties.getLiquibaseTablespace());
@@ -112,7 +112,7 @@ public class TracingDbLiquibaseConfig {
                 liquibase.setDatabaseChangeLogLockTable(properties.getDatabaseChangeLogLockTable());
                 liquibase.setDropFirst(properties.isDropFirst());
                 liquibase.setShouldRun(true);
-                liquibase.setLabelFilter(properties.getLabelFilter());
+                liquibase.setLabelFilter(String.join(", ", properties.getLabelFilter()));
                 liquibase.setChangeLogParameters(properties.getParameters());
                 liquibase.setRollbackFile(properties.getRollbackFile());
                 liquibase.setTestRollbackOnUpdate(properties.isTestRollbackOnUpdate());
